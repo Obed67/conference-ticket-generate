@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import TicketCard from './components/ticketCard';
 
 export default function App() {
@@ -95,10 +95,23 @@ export default function App() {
         {!ticketInfo && (
           <>
             <div
-              className="border-2 border-dashed rounded-lg w-96 flex flex-col items-center justify-center relative gap-4 bg-[hsl(248,70%,10%)]"
+              className="border-2 border-dashed rounded-lg w-96 flex flex-col items-center justify-center relative gap-4 bg-[hsl(248,70%,10%)] cursor-pointer"
               style={{ borderColor: isImageValid ? '#ccc' : 'hsl(7,86%,67%)' }}
               onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
+              onDragOver={(e) => e.preventDefault()} // Permet de recevoir un fichier via Drag and Drop
+              onDrop={(e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files[0];
+                handleFileChange({ target: { files: [file] } }); // Simule l'événement de changement de fichier
+              }}
+              onClick={() => {
+                if (image) {
+                  const link = document.createElement('a');
+                  link.href = image;
+                  link.download = 'avatar.jpg';
+                  link.click();
+                }
+              }}
             >
               {isHovered ? (
                 <>
@@ -129,7 +142,7 @@ export default function App() {
                       htmlFor="fileInput"
                       className="bg-gray-600 text-white py-2 px-2 rounded-md hover:bg-gray-500 transition-colors text-sm"
                     >
-                      Choose Image
+                      Charge Image
                     </label>
                     <input
                       id="fileInput"
@@ -142,15 +155,16 @@ export default function App() {
                 </>
               )}
             </div>
+            
             <div className="flex items-center mt-2 w-96">
               <img
                 src="/src/assets/images/icon-info.svg"
                 alt="info icon"
                 className="w-4 h-4 mr-2"
               />
-                <p className="text-sm text-gray-400">
-                  Upload your photo (JPG or PNG, max size: 500KB).
-                </p>
+              <p className={`text-sm ${isImageValid ? 'text-gray-400' : 'text-[hsl(7,86%,67%)]'}`}>
+                Upload your photo (JPG or PNG, max size: 500KB).
+              </p>
             </div>
           </>
         )}
