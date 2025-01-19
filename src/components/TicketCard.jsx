@@ -1,31 +1,46 @@
-// // src/components/ticketCard.jsx
-// export default function TicketCard({ fullName, email, image }) {
-//     return (
-//       <div className="w-96 p-6 bg-white text-gray-900 rounded-lg shadow-md mt-8">
-//         {/* Affichage de l'avatar */}
-//         {image && (
-//           <img src={image} alt="Avatar" className="w-24 h-24 rounded-full mx-auto mb-4" />
-//         )}
-//         <h2 className="text-2xl mb-4 text-center">Congrats, {fullName}! Your ticket is ready.</h2>
-//         <p className="text-center text-lg mb-4">
-//           We've emailed your ticket to {email} and will send updates in the run up to the event.
-//         </p>
-//         <div className="flex justify-center mt-4">
-//           <button className="bg-[hsl(7,88%,67%)] text-white py-2 px-4 rounded-lg shadow-md transition-colors duration-300 hover:bg-[hsl(7,71%,60%)]">
-//             View Ticket
-//           </button>
-//         </div>
-//       </div>
-//     );
-// }
+function TicketCard({ info, image }) {
+  const submissionDate = new Date().toLocaleDateString(); // Date actuelle
 
-const TicketCard = ({ fullName, email, image }) => (
-  <div className="bg-[hsl(248,70%,10%)] p-4 rounded-lg text-center">
-    <h2 className="text-2xl mb-4">Your Ticket</h2>
-    <img src={image} alt="Avatar" className="w-32 h-32 object-cover rounded-xl mx-auto mb-4" />
-    <h3 className="text-xl">{fullName}</h3>
-    <p className="text-sm">{email}</p>
-  </div>
-);
+  return (
+    <div className="relative w-[320px] h-[200px] bg-gradient-to-r from-blue-600 to-indigo-800 rounded-lg shadow-lg text-white p-4 flex flex-col justify-between">
+      {/* Avatar */}
+      {image && (
+        <img
+          src={image}
+          alt="User Avatar"
+          className="absolute top-4 left-4 w-12 h-12 object-cover rounded-full border-2 border-white"
+        />
+      )}
+
+      {/* Logo et titre */}
+      <div className="text-center mt-2">
+        <img
+          src="/src/assets/images/logo-mark.svg"
+          alt="Logo"
+          className="mx-auto w-10 h-10"
+        />
+        <h3 className="text-lg mt-1 font-bold">Coding Conf</h3>
+      </div>
+
+      {/* Contenu principal */}
+      <div className="flex flex-col gap-1 mt-4">
+        <p className="text-sm">
+          <span className="font-semibold">Name:</span> {info.fullName}
+        </p>
+        <p className="text-sm">
+          <span className="font-semibold">Email:</span> {info.email}
+        </p>
+        <p className="text-sm">
+          <span className="font-semibold">GitHub:</span> {info.github}
+        </p>
+      </div>
+
+      {/* Date */}
+      <p className="text-sm text-right mt-4">
+        <span className="font-semibold">Date:</span> {submissionDate}
+      </p>
+    </div>
+  );
+}
 
 export default TicketCard;
